@@ -1,0 +1,34 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #333357;
+}
+.titulo {
+            margin-bottom: 380px;
+            color: yellow;
+            position: absolute;
+            top: 12vh; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            font-size: 3vh;
+            opacity: 0;
+            animation: fadeIn 4s ease-in-out forwards; 
+            text-align: center;
+        }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
