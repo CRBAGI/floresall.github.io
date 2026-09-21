@@ -4,11 +4,15 @@
 
 // ---------- PERSONALIZACIÓN (editar aquí sin tocar el resto) ----------
 const titulo = "Feliz día de las flores amarillas";
-const subtitulo = "para que huelle bien";
+const subtitulo = "Ten tu ramo bonita";
 const nombrePersona = ""; // si se rellena, se añade al final del título
 
 const mensajesRomanticos = [
-  "para que huelle bien"
+  "Eres el color más bonito de mi día 🌻",
+  "Contigo hasta el negro se llena de luz",
+  "Un girasol para la persona que ilumina todo",
+  "Gracias por existir 💛",
+  "Este ramo creció solo para ti"
 ];
 
 // ---------- Utilidades ----------
@@ -458,9 +462,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupFlowers(timeline);
   setupWrapper(timeline);
   setupButterflies(timeline);
-
-  playIntro(timeline);
-});
 
   playIntro(timeline);
 });
