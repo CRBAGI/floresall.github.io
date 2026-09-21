@@ -1,0 +1,424 @@
+/* ============================================================
+   Feliz día de las flores amarillas — recreación con código
+   ============================================================ */
+
+:root{
+  --negro: #030302;
+  --negro-2: #07070a;
+  --amarillo: #ffd21f;
+  --amarillo-2: #ffb300;
+  --amarillo-3: #ffe487;
+  --centro-1: #3a2410;
+  --centro-2: #17100a;
+  --verde-tallo: #2f4d1e;
+  --verde-tallo-2: #1c3212;
+  --verde-hoja: #3c6423;
+  --papel-rosa: rgba(244, 205, 214, 0.28);
+  --papel-blanco: rgba(255, 255, 255, 0.22);
+  --papel-gris: rgba(190, 195, 205, 0.20);
+  --cinta: #ffcf3d;
+  --bouquet-w: clamp(240px, 62vw, 460px);
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background: var(--negro);
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body{
+  font-family: 'Quicksand', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scene{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: radial-gradient(ellipse at 50% 38%, #0b0b10 0%, #030302 62%, #000000 100%);
+  overflow: hidden;
+}
+
+#bg-canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#fx-canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* ---------------- Vegetación de fondo ---------------- */
+.foliage{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 42%;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+/* ---------------- Texto superior ---------------- */
+.hero-text{
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-align: center;
+  width: 92%;
+  pointer-events: none;
+}
+
+.titulo{
+  margin: 0;
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(26px, 7.2vw, 48px);
+  line-height: 1.15;
+  color: #b9f6a8;
+  text-shadow:
+    0 0 6px rgba(160, 255, 130, 0.55),
+    0 0 18px rgba(120, 255, 90, 0.35),
+    0 0 2px rgba(255,255,255,0.4);
+  opacity: 0;
+  letter-spacing: 0.5px;
+}
+
+.titulo.show{
+  animation: fadeUp 1.6s ease forwards;
+}
+
+.subtitulo{
+  margin: 0.15em 0 0;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(15px, 4vw, 24px);
+  color: #7fe6e0;
+  text-shadow: 0 0 8px rgba(90, 220, 230, 0.55), 0 0 3px rgba(255,255,255,0.3);
+  opacity: 0;
+}
+
+.subtitulo.show{
+  animation: fadeUp 1.6s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Contenedor del ramo ---------------- */
+.bouquet-wrap{
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  transform: translateX(-50%);
+  width: var(--bouquet-w);
+  aspect-ratio: 400 / 430;
+  z-index: 10;
+}
+
+.wrapper-svg,
+.stems-svg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.stems-svg{ z-index: 5; }
+.wrapper-svg{ z-index: 15; }
+
+.flowers-layer{
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+}
+
+.ribbon-layer{
+  position: absolute;
+  inset: 0;
+  z-index: 16;
+  pointer-events: none;
+}
+
+/* ---------------- Flores ---------------- */
+.flower{
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  cursor: pointer;
+  z-index: var(--z, 1);
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.55));
+}
+
+.flower.visible{
+  animation: flowerIn 0.85s cubic-bezier(.25,1.4,.4,1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes flowerIn{
+  0%{ opacity: 0; transform: translate(-50%,-50%) scale(0.15); }
+  60%{ opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+  100%{ opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+
+.flower-rot{
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.flower-sway{
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 88%;
+  animation: sway var(--sway-dur, 6s) ease-in-out infinite;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+@keyframes sway{
+  0%,100%{ transform: rotate(-2.2deg); }
+  50%{ transform: rotate(2.2deg); }
+}
+
+.flower.pulse .flower-sway{
+  animation: sway var(--sway-dur, 6s) ease-in-out infinite, punch 0.55s ease;
+}
+
+@keyframes punch{
+  0%{ transform: scale(1) rotate(0deg); }
+  35%{ transform: scale(1.14) rotate(-2deg); }
+  100%{ transform: scale(1) rotate(0deg); }
+}
+
+.petals-outer, .petals-inner{
+  position: absolute;
+  inset: 0;
+}
+
+.petal-wrap{
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--ang));
+}
+
+.petal{
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: var(--pw);
+  height: var(--ph);
+  margin-left: calc(var(--pw) / -2);
+  transform-origin: 50% 100%;
+  transform: scale(0.15);
+  opacity: 0;
+  border-radius: 50% 50% 48% 48% / 62% 62% 38% 38%;
+}
+
+.flower.visible .petal{
+  animation: petalOpen 0.55s cubic-bezier(.3,1.6,.4,1) forwards;
+  animation-delay: var(--pdelay, 0s);
+}
+
+.petals-outer .petal{
+  background: linear-gradient(180deg, var(--amarillo-3) 0%, var(--amarillo) 55%, var(--amarillo-2) 100%);
+  box-shadow: inset 0 -3px 4px rgba(150, 90, 0, 0.25);
+}
+
+.petals-inner .petal{
+  background: linear-gradient(180deg, #fff3c4 0%, var(--amarillo) 60%, #f2a900 100%);
+}
+
+@keyframes petalOpen{
+  from{ opacity: 0; transform: scale(0.1); }
+  70%{ opacity: 1; }
+  to{ opacity: 1; transform: scale(1); }
+}
+
+.flower-center{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34%;
+  height: 34%;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, #5a3a18 0%, var(--centro-1) 38%, var(--centro-2) 78%, #0a0603 100%);
+  box-shadow:
+    inset 0 3px 6px rgba(0,0,0,0.6),
+    inset 0 -2px 3px rgba(120,80,30,0.25);
+  z-index: 5;
+}
+
+.flower-center::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image:
+    radial-gradient(circle, rgba(0,0,0,0.55) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(0,0,0,0.4) 1px, transparent 1.4px);
+  background-position: 0 0, 6% 6%;
+  background-size: 14% 14%, 11% 11%;
+  opacity: 0.8;
+}
+
+/* ---------------- Tallos y hojas (SVG) ---------------- */
+.stem-path{
+  fill: none;
+  stroke: url(#stemGradient);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: var(--len, 300);
+  stroke-dashoffset: var(--len, 300);
+}
+.stem-path.grow{
+  animation: growStem 1s ease-out forwards;
+  animation-delay: var(--sdelay, 0s);
+}
+@keyframes growStem{
+  to{ stroke-dashoffset: 0; }
+}
+
+.leaf-path{
+  fill: var(--verde-hoja);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scale(0.3);
+}
+.leaf-path.show{
+  animation: leafIn 0.6s ease forwards;
+  animation-delay: var(--ldelay, 0s);
+}
+@keyframes leafIn{
+  from{ opacity: 0; transform: scale(0.3) rotate(-8deg); }
+  to{ opacity: 0.95; transform: scale(1) rotate(0deg); }
+}
+
+/* ---------------- Envoltura de papel ---------------- */
+.wrap-layer{
+  opacity: 0;
+  transform: scale(0.85);
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+}
+.wrap-layer.show{
+  animation: wrapIn 0.9s ease forwards;
+  animation-delay: var(--wdelay, 0s);
+}
+@keyframes wrapIn{
+  from{ opacity: 0; transform: scale(0.85) translateY(-6px); }
+  to{ opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ribbon-shape{
+  position: absolute;
+  opacity: 0;
+}
+.ribbon-shape.show{
+  animation: wrapIn 0.7s ease forwards;
+}
+
+/* ---------------- Mariposas ---------------- */
+.butterflies{
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+.butterfly{
+  position: absolute;
+  opacity: 0;
+  transform-origin: center;
+}
+.butterfly.show{
+  animation: butterflyIn 1s ease forwards, flutter 3.2s ease-in-out infinite;
+}
+@keyframes butterflyIn{
+  from{ opacity: 0; transform: scale(0.4); }
+  to{ opacity: 0.55; transform: scale(1); }
+}
+@keyframes flutter{
+  0%,100%{ transform: translateY(0) rotate(0deg); }
+  50%{ transform: translateY(-8px) rotate(4deg); }
+}
+.butterfly svg{ width: 100%; height: 100%; display:block; }
+.wing{
+  animation: wingFlap 0.7s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+@keyframes wingFlap{
+  from{ transform: scaleX(1); }
+  to{ transform: scaleX(0.45); }
+}
+
+/* ---------------- Mensajes románticos ---------------- */
+.message-box{
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  z-index: 40;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(16px, 4.4vw, 22px);
+  color: var(--amarillo-3);
+  text-shadow: 0 0 8px rgba(255, 200, 60, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  padding: 0 10%;
+}
+.message-box.show{
+  animation: msgInOut 2.4s ease forwards;
+}
+@keyframes msgInOut{
+  0%{ opacity: 0; transform: translate(-50%, 6px); }
+  15%{ opacity: 1; transform: translate(-50%, 0); }
+  80%{ opacity: 1; }
+  100%{ opacity: 0; transform: translate(-50%, -8px); }
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 480px){
+  :root{ --bouquet-w: clamp(230px, 78vw, 380px); }
+  .bouquet-wrap{ bottom: 8%; }
+  .hero-text{ top: 5%; }
+}
+
+@media (orientation: landscape) and (max-height: 500px){
+  :root{ --bouquet-w: clamp(180px, 34vh, 320px); }
+  .hero-text{ top: 3%; }
+  .titulo{ font-size: clamp(18px, 4.6vh, 30px); }
+  .subtitulo{ font-size: clamp(11px, 2.6vh, 16px); }
+  .bouquet-wrap{ bottom: 2%; }
+}
+
+@media (min-width: 1200px){
+  :root{ --bouquet-w: clamp(360px, 34vw, 560px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .flower-sway, .butterfly, .wing{ animation: none !important; }
+}
