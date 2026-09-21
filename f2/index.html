@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Feliz día de las flores amarillas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="scene" id="scene">
+
+    <!-- Fondo: estrellas / polvo / partículas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Vegetación oscura inferior y lateral -->
+    <svg id="foliage" class="foliage" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
+
+    <!-- Mariposas discretas -->
+    <div id="butterflies" class="butterflies" aria-hidden="true"></div>
+
+    <!-- Texto superior -->
+    <header class="hero-text" id="hero-text">
+      <h1 id="titulo" class="titulo"></h1>
+      <p id="subtitulo" class="subtitulo"></p>
+    </header>
+
+    <!-- Ramo -->
+    <div class="bouquet-wrap" id="bouquet-wrap">
+      <svg id="wrapper-svg" class="wrapper-svg" viewBox="0 0 400 420" aria-hidden="true"></svg>
+      <svg id="stems-svg" class="stems-svg" viewBox="0 0 400 420" aria-hidden="true"></svg>
+      <div id="flowers-layer" class="flowers-layer"></div>
+      <div id="ribbon-layer" class="ribbon-layer"></div>
+    </div>
+
+    <!-- Canvas de partículas para el clic -->
+    <canvas id="fx-canvas"></canvas>
+
+    <!-- Mensajes románticos -->
+    <div id="message-box" class="message-box"></div>
+
+  </div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
