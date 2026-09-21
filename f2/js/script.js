@@ -4,9 +4,12 @@
 
 // ---------- PERSONALIZACIÓN (editar aquí sin tocar el resto) ----------
 const titulo = "Feliz día de las flores amarillas";
+const subtitulo = "para que huelle bien";
 const nombrePersona = ""; // si se rellena, se añade al final del título
 
-
+const mensajesRomanticos = [
+  "para que huelle bien"
+];
 
 // ---------- Utilidades ----------
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -455,6 +458,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupFlowers(timeline);
   setupWrapper(timeline);
   setupButterflies(timeline);
+
+  playIntro(timeline);
+});
 
   playIntro(timeline);
 });
