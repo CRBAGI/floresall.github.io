@@ -4,7 +4,7 @@
 
 // ---------- PERSONALIZACIÓN (editar aquí sin tocar el resto) ----------
 const titulo = "Feliz día de las flores amarillas";
-const subtitulo = "Ten tu ramo bonita";
+const subtitulo = ":)";
 const nombrePersona = ""; // si se rellena, se añade al final del título
 
 const mensajesRomanticos = [
